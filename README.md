@@ -30,6 +30,9 @@ python -m unittest discover -s tests -v
 
 ```text
 skills/
+  domain-modeling/             共享术语表与 ADR 的维护机制
+  grilling/                    设计讨论与追问，供组合入口调用
+  grill-with-docs/             讨论过程中同步维护项目文档
   diagnosing-bugs/
     SKILL.md                  Matt 的调试技能，保留上游原文
     agents/openai.yaml        Codex 显示信息
@@ -68,10 +71,44 @@ npx skills@latest add yakami129/engineering-skills --skill diagnosing-bugs -a co
 
 | 技能 | 用途 |
 | --- | --- |
+| [domain-modeling](skills/domain-modeling/SKILL.md) | 在设计讨论中明确项目术语和概念边界，维护 `GLOSSARY.md` 并记录重要 ADR；[来源与版本](skills/domain-modeling/UPSTREAM.md) |
+| [grilling](skills/grilling/SKILL.md) | 围绕计划或设计分轮追问，澄清尚未决定的问题；[来源与版本](skills/grilling/UPSTREAM.md) |
+| [grill-with-docs](skills/grill-with-docs/SKILL.md) | 手动调用的组合入口：边讨论边维护术语表与 ADR，依赖上面两个技能；[兼容调整与来源](skills/grill-with-docs/UPSTREAM.md) |
 | [diagnosing-bugs](skills/diagnosing-bugs/SKILL.md) | Matt Pocock 的疑难故障与性能回归诊断流程：建立反馈循环、复现并最小化、验证假设、修复与回归检查；[来源与版本](skills/diagnosing-bugs/UPSTREAM.md) |
 | [meeting-notes](skills/meeting-notes/SKILL.md) | 将会议记录整理成结论、决策、待办和待确认问题；作为写作示例，可直接修改或删除 |
 
 新增技能时，在这里补一行，方便自己查找。技能较多后再考虑分类，不需要提前维护插件清单或发布流水线。
+
+## 项目上下文：CONTEXT.md / GLOSSARY.md
+
+Matt 旧版示例中的 `CONTEXT.md` 是项目共享术语表；当前技能把它命名为 `GLOSSARY.md`。这套机制让开发者和 Agent 对同一概念使用同一个名字，并在讨论中持续维护定义。
+
+| 文件 | 记录什么 | 何时创建 |
+| --- | --- | --- |
+| `GLOSSARY.md` | 项目特有的术语、定义与应避免的别名 | 第一个术语确定时 |
+| `docs/adr/0001-事项.md` | 重要决策及其理由，保留真实的取舍 | 决策难以逆转、缺少上下文会令人意外、且确实比较过替代方案时 |
+| `GLOSSARY-MAP.md` | 多个业务上下文的术语表位置及关系 | 项目确实存在多个上下文时 |
+
+在目标项目中安装完整组合：
+
+```bash
+npx skills@latest add yakami129/engineering-skills \
+  --skill domain-modeling --skill grilling --skill grill-with-docs -a codex
+```
+
+然后发起讨论，例如：
+
+> 使用 $grill-with-docs，帮我梳理订单取消与退款的设计；确定术语后及时写入 GLOSSARY.md，重要且有取舍的决定记录为 ADR。
+
+日常只维护术语或决策时，可以直接使用 `$domain-modeling`。`grill-with-docs` 保持手动调用；技能不会自动替你安装它依赖的另外两个技能。
+
+若希望后续任务也按需读取这些文件，可在目标项目的 `AGENTS.md` 中加入读取约定：
+
+```markdown
+讨论业务术语或修改领域行为时，先读取 GLOSSARY.md（如果存在）；涉及设计取舍时，读取 docs/adr/ 中的相关决策。术语变化使用 domain-modeling 技能同步维护。
+```
+
+已有 `CONTEXT.md` 的项目，应先检查其内容与引用，再决定是否迁移到当前约定。术语表保持精简，实施计划、临时笔记和实现细节各自保存在合适的项目文档中。
 
 ## 写一个好用的技能
 
