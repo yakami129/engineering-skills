@@ -2,7 +2,7 @@
 
 把自己反复使用的方法，整理成 AI Agent 可以按需调用的技能。
 
-参考 [Matt Pocock 的 skills 仓库](https://github.com/mattpocock/skills) 的组织方式：一个技能一个目录，先把流程写清楚，再按需补充脚本、参考资料和素材。本仓库是独立脚手架，未复制 Matt 的技能内容。
+参考 [Matt Pocock 的 skills 仓库](https://github.com/mattpocock/skills) 的组织方式：一个技能一个目录，先把流程写清楚，再按需补充脚本、参考资料和素材。迁入的第三方技能在各自目录中保留来源、固定版本与许可证。
 
 ## 快速开始
 
@@ -30,6 +30,11 @@ python -m unittest discover -s tests -v
 
 ```text
 skills/
+  diagnosing-bugs/
+    SKILL.md                  Matt 的调试技能，保留上游原文
+    agents/openai.yaml        Codex 显示信息
+    scripts/                  人工配合复现的 Bash 模板
+    LICENSE / UPSTREAM.md     上游许可与版本记录
   meeting-notes/
     SKILL.md                  可直接使用、也可删除的示例
 templates/
@@ -53,8 +58,8 @@ npx skills@latest add yakami129/engineering-skills --list
 # 交互选择技能和目标 Agent
 npx skills@latest add yakami129/engineering-skills
 
-# 只给当前项目的 Codex 安装示例技能
-npx skills@latest add yakami129/engineering-skills --skill meeting-notes -a codex
+# 只给当前项目的 Codex 安装调试技能
+npx skills@latest add yakami129/engineering-skills --skill diagnosing-bugs -a codex
 ```
 
 同一安装器也支持 Claude Code、Cursor 等 Agent。需要跨项目使用时，可以自行添加 `-g`；默认保持在当前项目中。复制安装后的技能不会跟随此仓库的每次提交自动同步，可使用 `npx skills@latest check` 和 `npx skills@latest update` 检查和更新。
@@ -63,6 +68,7 @@ npx skills@latest add yakami129/engineering-skills --skill meeting-notes -a code
 
 | 技能 | 用途 |
 | --- | --- |
+| [diagnosing-bugs](skills/diagnosing-bugs/SKILL.md) | Matt Pocock 的疑难故障与性能回归诊断流程：建立反馈循环、复现并最小化、验证假设、修复与回归检查；[来源与版本](skills/diagnosing-bugs/UPSTREAM.md) |
 | [meeting-notes](skills/meeting-notes/SKILL.md) | 将会议记录整理成结论、决策、待办和待确认问题；作为写作示例，可直接修改或删除 |
 
 新增技能时，在这里补一行，方便自己查找。技能较多后再考虑分类，不需要提前维护插件清单或发布流水线。
@@ -77,4 +83,4 @@ npx skills@latest add yakami129/engineering-skills --skill meeting-notes -a code
 
 公开提交前检查内容归属，使用虚构或脱敏示例。凭据、客户原始资料和未获准公开的内部流程应保存在合适的私有位置。
 
-格式参考：[Agent Skills 规范](https://agentskills.io/specification)。许可证：[MIT](LICENSE)。
+格式参考：[Agent Skills 规范](https://agentskills.io/specification)。原创内容使用 [MIT 许可证](LICENSE)；迁入技能的版权、许可证和版本记录见各自目录中的 `LICENSE` 与 `UPSTREAM.md`。
