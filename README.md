@@ -1,4 +1,4 @@
-# Yakami's Skills
+# Engineering Skills
 
 把自己反复使用的方法，整理成 AI Agent 可以按需调用的技能。
 
@@ -7,8 +7,8 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/yakami129/skills.git
-cd skills
+git clone https://github.com/yakami129/engineering-skills.git
+cd engineering-skills
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-dev.txt
@@ -48,13 +48,13 @@ tests/                        工具的行为测试
 
 ```bash
 # 只查看可用技能，不安装
-npx skills@latest add yakami129/skills --list
+npx skills@latest add yakami129/engineering-skills --list
 
 # 交互选择技能和目标 Agent
-npx skills@latest add yakami129/skills
+npx skills@latest add yakami129/engineering-skills
 
 # 只给当前项目的 Codex 安装示例技能
-npx skills@latest add yakami129/skills --skill meeting-notes -a codex
+npx skills@latest add yakami129/engineering-skills --skill meeting-notes -a codex
 ```
 
 同一安装器也支持 Claude Code、Cursor 等 Agent。需要跨项目使用时，可以自行添加 `-g`；默认保持在当前项目中。复制安装后的技能不会跟随此仓库的每次提交自动同步，可使用 `npx skills@latest check` 和 `npx skills@latest update` 检查和更新。
