@@ -33,6 +33,7 @@ skills/
   domain-modeling/             共享术语表与 ADR 的维护机制
   grilling/                    设计讨论与追问，供组合入口调用
   grill-with-docs/             讨论过程中同步维护项目文档
+  prototype/                  逻辑演示与多方案 UI 原型
   diagnosing-bugs/
     SKILL.md                  Matt 的调试技能，保留上游原文
     agents/openai.yaml        Codex 显示信息
@@ -74,6 +75,7 @@ npx skills@latest add yakami129/engineering-skills --skill diagnosing-bugs -a co
 | [domain-modeling](skills/domain-modeling/SKILL.md) | 在设计讨论中明确项目术语和概念边界，维护 `GLOSSARY.md` 并记录重要 ADR；[来源与版本](skills/domain-modeling/UPSTREAM.md) |
 | [grilling](skills/grilling/SKILL.md) | 围绕计划或设计分轮追问，澄清尚未决定的问题；[来源与版本](skills/grilling/UPSTREAM.md) |
 | [grill-with-docs](skills/grill-with-docs/SKILL.md) | 手动调用的组合入口：边讨论边维护术语表与 ADR，依赖上面两个技能；[兼容调整与来源](skills/grill-with-docs/UPSTREAM.md) |
+| [prototype](skills/prototype/SKILL.md) | 用可交互原型验证设计问题：单文件 HTML 逻辑演示，或可切换的多方案 UI 布局；[来源与版本](skills/prototype/UPSTREAM.md) |
 | [diagnosing-bugs](skills/diagnosing-bugs/SKILL.md) | Matt Pocock 的疑难故障与性能回归诊断流程：建立反馈循环、复现并最小化、验证假设、修复与回归检查；[来源与版本](skills/diagnosing-bugs/UPSTREAM.md) |
 | [meeting-notes](skills/meeting-notes/SKILL.md) | 将会议记录整理成结论、决策、待办和待确认问题；作为写作示例，可直接修改或删除 |
 
@@ -109,6 +111,21 @@ npx skills@latest add yakami129/engineering-skills \
 ```
 
 已有 `CONTEXT.md` 的项目，应先检查其内容与引用，再决定是否迁移到当前约定。术语表保持精简，实施计划、临时笔记和实现细节各自保存在合适的项目文档中。
+
+## 原型设计：逻辑与界面
+
+`prototype` 根据你要验证的问题选择输出：
+
+- **逻辑与状态**：生成单个 HTML 文件，提供当前状态、自由操作按钮和分场景引导，直接打开即可体验。示例：`用 $prototype 做一个订单取消与退款的状态演示，验证部分取消后哪些退款动作仍然合法。`
+- **界面与布局**：优先在项目已有页面中制作结构不同的方案，通过 `?variant=` 和底部切换栏比较，默认 3 个方案。示例：`用 $prototype 为设置页面做三种信息层级和布局不同的方案，方便切换比较。`
+
+安装到当前项目的 Codex：
+
+```bash
+npx skills@latest add yakami129/engineering-skills --skill prototype -a codex
+```
+
+原型用于快速回答设计问题。确定方案后，把经过验证的逻辑或设计落实到正式代码，将原型保存在独立的临时分支并记录结论；主分支保留确认后的实现。
 
 ## 写一个好用的技能
 
