@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: A relentless interview to sharpen a plan, design, or feature requirements until there is a shared understanding, capturing the glossary, ADRs, and a SPEC.md for features as we go. Invoke with /grill-me.
+description: A relentless interview to sharpen a plan, design, or feature requirements until there is a shared understanding, capturing the glossary, ADRs, and a spec in docs/exec-plans/ for features as we go. Invoke with /grill-me.
 disable-model-invocation: true
 ---
 
@@ -54,15 +54,22 @@ The session is done when the frontier is empty: every branch of the design tree 
 
 Read and apply [domain-modeling](../domain-modeling/SKILL.md) to capture resolved terminology and qualifying decisions as the discussion progresses. That sibling skill must be installed for this workflow.
 
-### SPEC.md
+### Spec
 
-When the session is designing a feature, module, or system, it also produces a spec. Confirm at the start whether the user wants one and where it goes (default `docs/SPEC.md`). Skip it for decisions that don't describe something to build.
+When the session is designing a feature, module, or system, it also produces a spec. Confirm at the start whether the user wants one. Skip it for decisions that don't describe something to build.
+
+The spec goes in `docs/exec-plans/`, named `YYYY-MM-DD-<slug>.md`, for example `docs/exec-plans/2026-06-21-terminal-ime-paste.md`:
+
+- `YYYY-MM-DD` is the date the spec is written.
+- `<slug>` is a name you generate from the subject: two to five lowercase English words joined by hyphens, naming what is being built rather than the session.
+
+Propose the full path when you confirm the spec, and use another path only if the user asks for one.
 
 Each document keeps its own job:
 
 - `GLOSSARY.md` holds terms only, written as they are resolved.
 - ADRs hold the few decisions that meet domain-modeling's three criteria.
-- `SPEC.md` holds everything else that implementation needs: scope, flows, data, technical approach, UI/UX, edge cases, non-functional requirements, trade-offs, and acceptance criteria. It uses the glossary's terms and links to ADRs instead of restating them.
+- The spec holds everything else that implementation needs: scope, flows, data, technical approach, UI/UX, edge cases, non-functional requirements, trade-offs, and acceptance criteria. It uses the glossary's terms and links to ADRs instead of restating them.
 
 Write the spec once the interview is done and the user has confirmed the shared understanding:
 

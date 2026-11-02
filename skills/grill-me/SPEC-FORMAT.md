@@ -1,6 +1,6 @@
-# SPEC.md format
+# Spec format
 
-Default location: `docs/SPEC.md`. Adapt the structure to the subject: drop sections that don't apply and add ones it needs. Write each section only to the depth implementation needs; use glossary terms as defined and link ADRs rather than repeating their reasoning.
+Default location: `docs/exec-plans/YYYY-MM-DD-<slug>.md` (see the Spec section of [SKILL.md](SKILL.md)). Adapt the structure to the subject: drop sections that don't apply and add ones it needs. Write each section only to the depth implementation needs; use glossary terms as defined and link ADRs rather than repeating their reasoning.
 
 ```markdown
 # [Feature name] SPEC
