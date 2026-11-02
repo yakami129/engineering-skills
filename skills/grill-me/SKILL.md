@@ -1,6 +1,7 @@
 ---
-name: grilling
-description: Grill the user relentlessly about a plan, decision, idea, or feature requirements until there is a shared understanding. Use when the user wants to stress-test their thinking, clarify requirements before building ("ask me first", "梳理需求", "先问清楚再开工"), or uses any 'grill' trigger phrases.
+name: grill-me
+description: A relentless interview to sharpen a plan, design, or feature requirements until there is a shared understanding, capturing the glossary, ADRs, and a SPEC.md for features as we go. Invoke with /grill-me.
+disable-model-invocation: true
 ---
 
 Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
@@ -48,3 +49,23 @@ Finding _facts_ is your job, never the user's. When a frontier question needs a 
 ## Done
 
 The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. For a feature or system, that also means every relevant dimension in [COVERAGE.md](COVERAGE.md) has been touched, and recent rounds are adding detail rather than new large branches. Summarise the shared understanding, list anything deliberately left open, and do not act on it until the user confirms you have reached a shared understanding.
+
+## Docs as we go
+
+Read and apply [domain-modeling](../domain-modeling/SKILL.md) to capture resolved terminology and qualifying decisions as the discussion progresses. That sibling skill must be installed for this workflow.
+
+### SPEC.md
+
+When the session is designing a feature, module, or system, it also produces a spec. Confirm at the start whether the user wants one and where it goes (default `docs/SPEC.md`). Skip it for decisions that don't describe something to build.
+
+Each document keeps its own job:
+
+- `GLOSSARY.md` holds terms only, written as they are resolved.
+- ADRs hold the few decisions that meet domain-modeling's three criteria.
+- `SPEC.md` holds everything else that implementation needs: scope, flows, data, technical approach, UI/UX, edge cases, non-functional requirements, trade-offs, and acceptance criteria. It uses the glossary's terms and links to ADRs instead of restating them.
+
+Write the spec once the interview is done and the user has confirmed the shared understanding:
+
+1. Draft it in the conversation using [SPEC-FORMAT.md](SPEC-FORMAT.md), dropping sections that don't apply. Mark anything still undecided as an open question rather than filling it with an assumption.
+2. Ask the user to read the whole draft, then revise it with their corrections.
+3. Write the confirmed version to the agreed path, creating the directory if needed. If the file already exists, summarise what the new version changes or removes before overwriting it.
