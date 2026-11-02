@@ -31,8 +31,7 @@ python -m unittest discover -s tests -v
 ```text
 skills/
   domain-modeling/             共享术语表与 ADR 的维护机制
-  grilling/                    设计讨论与需求追问，附功能类覆盖清单
-  grill-with-docs/             讨论过程中同步维护术语表、ADR 与 SPEC.md
+  grill-me/                    /grill-me：分轮追问，同步维护术语表、ADR 与 SPEC.md
   prototype/                  逻辑演示与多方案 UI 原型
   implement/                  手动入口：按 spec 或工单实现，串联 tdd 与 code-review
   tdd/                        在约定 seam 上做红绿循环
@@ -77,8 +76,7 @@ npx skills@latest add yakami129/engineering-skills --skill diagnosing-bugs -a co
 | 技能 | 用途 |
 | --- | --- |
 | [domain-modeling](skills/domain-modeling/SKILL.md) | 在设计讨论中明确项目术语和概念边界，维护 `GLOSSARY.md` 并记录重要 ADR；[来源与版本](skills/domain-modeling/UPSTREAM.md) |
-| [grilling](skills/grilling/SKILL.md) | 围绕计划、设计或功能需求分轮追问，澄清尚未决定的问题；功能/系统类讨论对照十维覆盖清单查漏；[来源与版本](skills/grilling/UPSTREAM.md) |
-| [grill-with-docs](skills/grill-with-docs/SKILL.md) | 手动调用的组合入口：边讨论边维护术语表与 ADR，讨论功能时最终产出 `docs/SPEC.md`，依赖上面两个技能；[兼容调整与来源](skills/grill-with-docs/UPSTREAM.md) |
+| [grill-me](skills/grill-me/SKILL.md) | 通过 `/grill-me` 手动调用：围绕计划、设计或功能需求分轮追问，对照十维覆盖清单查漏，边讨论边维护术语表与 ADR，讨论功能时产出 `docs/SPEC.md`；依赖 `domain-modeling`；[合并说明与来源](skills/grill-me/UPSTREAM.md) |
 | [prototype](skills/prototype/SKILL.md) | 用可交互原型验证设计问题：单文件 HTML 逻辑演示，或可切换的多方案 UI 布局；[来源与版本](skills/prototype/UPSTREAM.md) |
 | [implement](skills/implement/SKILL.md) | 手动调用的实现入口：按 spec 或工单实现，在约定的 seam 上走 TDD，完成后做两轴审查并提交，依赖下面两个技能；[兼容调整与来源](skills/implement/UPSTREAM.md) |
 | [tdd](skills/tdd/SKILL.md) | 测试驱动开发：先与用户约定测试 seam，再按垂直切片走红绿循环，附好测试示例与 mock 原则；[兼容调整与来源](skills/tdd/UPSTREAM.md) |
@@ -103,14 +101,14 @@ Matt 旧版示例中的 `CONTEXT.md` 是项目共享术语表；当前技能把�
 
 ```bash
 npx skills@latest add yakami129/engineering-skills \
-  --skill domain-modeling --skill grilling --skill grill-with-docs -a codex
+  --skill domain-modeling --skill grill-me -a codex
 ```
 
 然后发起讨论，例如：
 
-> 使用 $grill-with-docs，帮我梳理订单取消与退款的设计；确定术语后及时写入 GLOSSARY.md，重要且有取舍的决定记录为 ADR。
+> /grill-me 帮我梳理订单取消与退款的设计；确定术语后及时写入 GLOSSARY.md，重要且有取舍的决定记录为 ADR。
 
-日常只维护术语或决策时，可以直接使用 `$domain-modeling`。`grill-with-docs` 保持手动调用；技能不会自动替你安装它依赖的另外两个技能。
+日常只维护术语或决策时，可以直接使用 `$domain-modeling`。`grill-me` 保持手动调用（Claude Code 中输入 `/grill-me`，Codex 中使用 `$grill-me`）；技能不会自动替你安装它依赖的 `domain-modeling`。
 
 若希望后续任务也按需读取这些文件，可在目标项目的 `AGENTS.md` 中加入读取约定：
 
