@@ -17,21 +17,21 @@ Default location: `docs/exec-plans/YYYY-MM-DD-<slug>.md` (see the Spec section o
 - Typical roles
 - Key scenarios (user stories)
 
-## 4. Flow and structure
-- High-level flow
+## 4. Flow and information architecture
+- High-level flow or step description
 - Important states and transitions
 - Main pages or modules and how they relate
 
 ## 5. Data and interfaces
-- Core entities and fields
+- Core entities and fields (only to the depth implementation or design needs)
 - External dependencies and integration interfaces
 
-## 6. Technical approach
+## 6. Technical approach overview
 - Architecture and boundaries
 - Key technical decisions and their reasons (link ADRs where they exist)
 - Constraints and assumptions
 
-## 7. UI/UX
+## 7. UI/UX requirements
 - Key screens and interactions
 - Information hierarchy and feedback
 - Accessibility, responsive, or localisation constraints (if applicable)
@@ -51,7 +51,7 @@ Default location: `docs/exec-plans/YYYY-MM-DD-<slug>.md` (see the Spec section o
 - Trade-offs made and why
 - Open questions (clearly marked)
 
-## 11. Acceptance
+## 11. Acceptance criteria and examples
 - Acceptance checklist
 - Representative scenarios
 ```

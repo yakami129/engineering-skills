@@ -1,78 +1,141 @@
 ---
 name: grill-me
-description: A relentless interview to sharpen a plan, design, or feature requirements until there is a shared understanding, capturing the glossary, ADRs, and a spec in docs/exec-plans/ for features as we go. Invoke with /grill-me.
+description: Interview the user over several rounds to work through requirements, technical approach, UI/UX, edge cases, and trade-offs, then write a structured spec to docs/exec-plans/. Use when the user wants requirements clarified, an interview, a SPEC or PRD, or to ask everything before work starts. Invoke with /grill-me.
 disable-model-invocation: true
 ---
 
-Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
+# Interview mode
 
-## Before the first round
+> **Use the structured question tool.** Put every question, choice, and discussion point to the user through your environment's structured question tool (for example `AskUserQuestion` in Claude Code), not as plain text in the conversation. Fall back to plain conversational questions only when no such tool is available.
 
-Restate what you are grilling in 1–3 sentences: what is being built or decided, who it is for, and what the session should produce. If the user opened with a long description, first sort it into what is already clear, what is missing, and what contradicts itself. Seed the tree from the missing and contradictory parts; don't re-ask what the user has already told you.
+## When to use
 
-## Rounds
+Apply this skill when any of these is true:
 
-Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
+- The user says "talk the requirements through with me first", "help me sort out the requirements", or "write a SPEC/PRD".
+- The user has only a rough idea for a new feature or refactor and needs the details settled before work starts.
+- The user wants you to lead the questioning instead of listing every detail themselves.
 
-Format a round like so:
+## Overall flow
 
-```
-❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+1. Pin down what is being designed (a feature, module, or system) and the output: a spec.
+2. Interview over several rounds, grouping questions by dimension instead of asking everything at once.
+3. Dig into technical approach, UI/UX, edge cases, concerns, and trade-offs; don't stop at surface requirements.
+4. Summarise at key points: play back your current understanding, surface your assumptions, and let the user correct them.
+5. Once every key dimension is covered, write a structured spec from the conversation into the project (see [Step 6](#step-6-write-the-spec)).
 
-➡️ <your recommended answer>
+## Using the question tool (required)
 
----
+Ask every interview question through the structured question tool where you can.
 
-❓ **Q2** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+- **Always use it to:**
+  - collect structured preferences (priorities, locations, languages, technology choices); one call can ask several questions
+  - have the user choose or trade off (for example, which side they lean to when A and B conflict)
+  - confirm key decisions (scope, acceptance criteria, the level of each non-functional requirement)
+- **How to use it:**
+  - Each round, group 2–5 questions by dimension and present them in one call. Split the round across calls if the tool limits how many questions it takes.
+  - Turn deep questions that resist fixed options into "single choice + other (please add)", or break them into several choosable options.
+  - After the user answers, summarise in plain language, then start the next round.
+- **Only when no such tool is available:** fall back to planned, grouped, multi-round questions in the conversation, keeping the same interview rhythm.
 
-➡️ <your recommended answer>
-```
+## Interview dimensions (coverage checklist)
 
-Word each question so "yes" accepts your recommended answer.
+A complete interview usually needs to reach all of these dimensions; adjust the order to the context:
 
-If your environment has a structured question tool (for example `AskUserQuestion` in Claude Code), you may use it for questions with discrete options: put your recommended answer first and mark it as recommended, and leave room for a free-form answer. Split the round across several calls if the tool limits how many questions it takes. Open-ended questions stay in the text format above.
+1. Goals and scope
+2. Users and scenarios
+3. Flow and information architecture
+4. Data model and interfaces
+5. Technical approach and architecture
+6. UI/UX requirements
+7. States, errors, and edge cases
+8. Non-functional requirements (performance, security, scalability, operability)
+9. Risks, trade-offs, and non-goals
+10. Acceptance criteria and examples
 
-Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Open the next round with a short summary of what was just settled ("So far: A, B, C. Still open: X and Y."), then recompute the frontier and ask. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one.
+[COVERAGE.md](COVERAGE.md) gives what each dimension should clarify and example questions for it. Don't recite the checklist item by item; jump between and merge dimensions based on what the user has already said. Before you finish, check that every dimension has been touched at least once.
 
-Keep rounds digestible. If the frontier grows beyond about five questions, or the user signals overload, ask which branch they want to settle first and take the rest in later rounds.
+## Step 1: Set up and align expectations
 
-## What to ask
+1. **Restate the goal.** In 1–3 sentences, restate your understanding of what the user needs:
+   - what is being built (a short description of the feature, module, or system)
+   - who the main users or callers are
+   - that the output is a spec, used for the design and implementation that follow
 
-Spend questions on decisions and trade-offs, not on details that convention or a sensible default already settles. "If A and B conflict, which do you give up?" is worth asking; "should the button have a hover state?" is not. Push for concrete examples wherever the answer is fuzzy, especially failure modes and edge cases.
+2. **Confirm the output location.**
+   - Write the spec to `docs/exec-plans/YYYY-MM-DD-<slug>.md`, for example `docs/exec-plans/2026-06-21-terminal-ime-paste.md`. `YYYY-MM-DD` is the date the spec is written; `<slug>` is a name you generate from the subject: two to five lowercase English words joined by hyphens, naming what is being built.
+   - Propose the full path to the user. If they name another path in this session, use theirs.
+   - If `docs/exec-plans/` doesn't exist, create it when you actually write the file.
 
-When the subject is a feature, module, or system, use [COVERAGE.md](COVERAGE.md) to find branches the tree is missing. Don't walk it as a script; merge and skip dimensions the conversation has already covered.
+3. **Extract what is already known.**
+   - If the user opened with a long description, don't start asking yet. First pull out the key points:
+     - what is already fairly clear
+     - what is obviously missing or contradictory
+   - Aim the questions that follow at the gaps, the vague parts, and the conflicts first.
 
-## Facts and decisions
+## Step 2: Interview by dimension over several rounds
 
-Finding _facts_ is your job, never the user's. When a frontier question needs a fact from the environment (filesystem, tools, etc.), dispatch a sub-agent with a fresh context window to find it; don't ask the user for anything you could look up yourself. Don't block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report; ask the rest of the frontier now. The _decisions_ are the user's: put each to them and wait.
+Work in a loop of "a small group of questions, then a summary", not a dozen questions at once.
 
-## Done
+**Ask every round through the structured question tool.** Turn 2–5 of the dimension's example questions from [COVERAGE.md](COVERAGE.md) into the tool's options for the user to choose from or add to. After the user answers, summarise in plain language, then move on to the next dimension.
 
-The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. For a feature or system, that also means every relevant dimension in [COVERAGE.md](COVERAGE.md) has been touched, and recent rounds are adding detail rather than new large branches. Summarise the shared understanding, list anything deliberately left open, and do not act on it until the user confirms you have reached a shared understanding.
+## Step 3: Interview style
 
-## Docs as we go
+- **Don't ask the obvious.**
+  - Skip details that common sense or default design conventions settle, such as "should this button have a hover state?"
+  - Prefer questions like: "If A and B conflict, which would you give up, and why?"
 
-Read and apply [domain-modeling](../domain-modeling/SKILL.md) to capture resolved terminology and qualifying decisions as the discussion progresses. That sibling skill must be installed for this workflow.
+- **Summarise and confirm instead of mechanically following up.**
+  - If the user has already given a lot of information, first sum it up in your own words: "It sounds like A, B, and C are settled, and X and Y are still unclear. Is that right?"
+  - Dig further only where the summary exposes something unclear or ambiguous.
 
-### Spec
+- **Control the pace.**
+  - Keep each round to 2–5 questions, and summarise after the user answers.
+  - If the user is clearly overwhelmed, pause, ask "Which part would you like to settle first?", and reprioritise.
 
-When the session is designing a feature, module, or system, it also produces a spec. Confirm at the start whether the user wants one. Skip it for decisions that don't describe something to build.
+## Step 4: Decide when to stop
 
-The spec goes in `docs/exec-plans/`, named `YYYY-MM-DD-<slug>.md`, for example `docs/exec-plans/2026-06-21-terminal-ime-paste.md`:
+Before writing the spec, check for yourself:
 
-- `YYYY-MM-DD` is the date the spec is written.
-- `<slug>` is a name you generate from the subject: two to five lowercase English words joined by hyphens, naming what is being built rather than the session.
+- Has each of the 10 dimensions been touched at least once?
+- Is there still an obvious large open question (for example, the technical direction is completely undecided)?
+- In the last few rounds, has the user mostly been adding detail rather than bringing in large new areas?
 
-Propose the full path when you confirm the spec, and use another path only if the user asks for one.
+When you judge the information is enough to support an implementation, tell the user something like:
 
-Each document keeps its own job:
+> I've now covered the goals, scope, technical approach, UI/UX, edge cases, and trade-offs.
+> Next I'll put together a full spec draft from our conversation; you can add to or correct it.
 
-- `GLOSSARY.md` holds terms only, written as they are resolved.
-- ADRs hold the few decisions that meet domain-modeling's three criteria.
-- The spec holds everything else that implementation needs: scope, flows, data, technical approach, UI/UX, edge cases, non-functional requirements, trade-offs, and acceptance criteria. It uses the glossary's terms and links to ADRs instead of restating them.
+If the user wants to keep digging into a dimension, run one or two more focused rounds on it.
 
-Write the spec once the interview is done and the user has confirmed the shared understanding:
+## Step 5: Draft the spec
 
-1. Draft it in the conversation using [SPEC-FORMAT.md](SPEC-FORMAT.md), dropping sections that don't apply. Mark anything still undecided as an open question rather than filling it with an assumption.
-2. Ask the user to read the whole draft, then revise it with their corrections.
-3. Write the confirmed version to the agreed path, creating the directory if needed. If the file already exists, summarise what the new version changes or removes before overwriting it.
+Use the structure in [SPEC-FORMAT.md](SPEC-FORMAT.md), adding or removing sections to fit the subject.
+
+Before writing the file, post the complete draft as markdown in the conversation and ask the user to read it through as a whole at least once, then revise it once with their additions.
+
+## Step 6: Write the spec
+
+- **Default path:** `docs/exec-plans/YYYY-MM-DD-<slug>.md`, as agreed in Step 1.
+  - If `docs/exec-plans/` doesn't exist, create it before writing.
+  - If the user asks for another path, respect their choice.
+- **How to write it:**
+  - Create or overwrite the file with the file editing tools available in the project.
+  - Before overwriting an existing file, briefly compare the old and new content, even at a high level, so nothing important is lost by accident.
+
+## Glossary and ADRs
+
+While interviewing, read and apply [domain-modeling](../domain-modeling/SKILL.md): write resolved terms to `GLOSSARY.md` and record decisions that meet its ADR criteria. The spec uses the glossary's terms and links to ADRs instead of restating them. That sibling skill must be installed for this workflow.
+
+## Short example
+
+**User:**
+I want to build a new "task reminder" feature. Use interview mode to work out the requirements and details with me, and produce a spec at the end.
+
+**Agent (following this skill), roughly:**
+
+1. Restates in 1–3 sentences its understanding of "task reminder" and confirms the spec will go to `docs/exec-plans/2026-06-21-task-reminder.md`.
+2. Asks over several rounds in roughly this order: goals and scope → users and scenarios → flow → data and interfaces → technical approach → UI/UX → edge cases → non-functional requirements → trade-offs → acceptance criteria, summarising every round or two.
+3. Notes what the user says about hard parts and trade-offs (for example, whether reliability or flexible configuration matters more).
+4. When there is enough information, drafts the full spec from the interview and posts it in the conversation for the user to confirm.
+5. Once the user confirms, writes the final version to `docs/exec-plans/2026-06-21-task-reminder.md` and reminds the user how to use it in later development.
