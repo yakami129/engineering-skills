@@ -10,7 +10,7 @@
 
 - `SKILL.md` 直接内联上游 `grilling` 的设计树、frontier 与推荐答案机制，不再依赖单独的 `grilling` 技能；上游原有段落保持原文。
 - 在此之上并入仓库作者自己编写的采访模式技能（interview-spec）的做法：开场复述目标并提炼已知信息、按需使用结构化提问工具、每轮先小结、控制每轮问题数量、不问可由常识决定的细节，以及结束前对照 `COVERAGE.md` 检查。
-- 保留上游 `grill-with-docs` 的文档职责：读取同级 `domain-modeling` 技能维护术语表与 ADR（原为 Skill 工具调用，改为读取同级文件），讨论功能或系统时另产出 `SPEC.md`。
+- 保留上游 `grill-with-docs` 的文档职责：读取同级 `domain-modeling` 技能维护术语表与 ADR（原为 Skill 工具调用，改为读取同级文件），讨论功能或系统时另产出 SPEC，写入 `docs/exec-plans/YYYY-MM-DD-<slug>.md`。
 - `COVERAGE.md`（十维覆盖清单）与 `SPEC-FORMAT.md`（SPEC 模板）来自同一采访模式，非上游文件。
 - 保留 `disable-model-invocation: true` 与 Codex 的 `allow_implicit_invocation: false`，维持手动调用；`description` 与 `agents/openai.yaml` 相应调整。
 

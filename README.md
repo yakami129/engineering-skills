@@ -29,7 +29,7 @@
 
 ```text
 想法 / 需求
-      |  /grill-me             分轮追问，对照十维清单查漏，产出 docs/SPEC.md
+      |  /grill-me             分轮追问，对照十维清单查漏，产出 docs/exec-plans/ 下的 SPEC
       v
 设计
       +-- domain-modeling      术语表 GLOSSARY.md 与 ADR
@@ -46,7 +46,7 @@
       /setup-ponytail-lite    一次登记 SessionStart 与 SubagentStart hook
 ```
 
-技能之间通过产物衔接：`grill-me` 写下的 `GLOSSARY.md`、ADR 与 `docs/SPEC.md`，是 `implement`、`tdd` 和 `code-review` 的输入。
+技能之间通过产物衔接：`grill-me` 写下的 `GLOSSARY.md`、ADR 与 `docs/exec-plans/` 下的 SPEC，是 `implement`、`tdd` 和 `code-review` 的输入。
 
 可以这样开始：
 
@@ -54,7 +54,7 @@
 | --- | --- |
 | “/grill-me 帮我梳理订单取消与退款的设计” | 一次只问一个分支，确定的术语写进 `GLOSSARY.md`，有取舍的决定记成 ADR，最后产出 SPEC |
 | “用 $prototype 做三种布局不同的设置页方案” | 在已有页面中做出可通过 `?variant=` 切换的方案，方便并排比较 |
-| “/implement 按 docs/SPEC.md 实现退款” | 先约定测试 seam，按垂直切片走 TDD，完成后两轴审查并提交 |
+| “/implement 按 docs/exec-plans/2026-06-21-order-refund.md 实现退款” | 先约定测试 seam，按垂直切片走 TDD，完成后两轴审查并提交 |
 | “这个接口偶发超时，帮我查一下” | 先建立能稳定复现的反馈循环，再逐个验证假设，修复后补回归检查 |
 | “/setup-ponytail-lite” | 检查依赖与冲突，确认后把规则登记为 Claude Code 与 Codex 的常驻 hook |
 
@@ -62,7 +62,7 @@
 
 | 技能 | 调用 | 用途 |
 | --- | --- | --- |
-| [grill-me](skills/grill-me/SKILL.md) | `/grill-me` | 围绕计划、设计或功能需求分轮追问，对照十维覆盖清单查漏，边讨论边维护术语表与 ADR，讨论功能时产出 `docs/SPEC.md`；依赖 `domain-modeling`；[合并说明与来源](skills/grill-me/UPSTREAM.md) |
+| [grill-me](skills/grill-me/SKILL.md) | `/grill-me` | 围绕计划、设计或功能需求分轮追问，对照十维覆盖清单查漏，边讨论边维护术语表与 ADR，讨论功能时产出 `docs/exec-plans/YYYY-MM-DD-<slug>.md`；依赖 `domain-modeling`；[合并说明与来源](skills/grill-me/UPSTREAM.md) |
 | [domain-modeling](skills/domain-modeling/SKILL.md) | 自动 | 在设计讨论中明确项目术语和概念边界，维护 `GLOSSARY.md` 并记录重要 ADR；[来源与版本](skills/domain-modeling/UPSTREAM.md) |
 | [codebase-design](skills/codebase-design/SKILL.md) | 自动 | 深模块设计的共享术语（module、interface、seam、adapter、depth 等）与原则，附模块深化和多方案接口设计方法；[来源与版本](skills/codebase-design/UPSTREAM.md) |
 | [prototype](skills/prototype/SKILL.md) | 自动 | 用可交互原型验证设计问题：单文件 HTML 逻辑演示，或可切换的多方案 UI 布局；[来源与版本](skills/prototype/UPSTREAM.md) |
@@ -108,7 +108,7 @@ npx skills@latest add yakami129/engineering-skills \
 
 > /grill-me 帮我梳理订单取消与退款的设计；确定术语后及时写入 GLOSSARY.md，重要且有取舍的决定记录为 ADR。
 
-讨论产出 `docs/SPEC.md` 后，用 `/implement` 进入实现。
+讨论产出 `docs/exec-plans/YYYY-MM-DD-<slug>.md` 后，用 `/implement` 进入实现。
 
 ## 项目上下文：GLOSSARY.md 与 ADR
 
