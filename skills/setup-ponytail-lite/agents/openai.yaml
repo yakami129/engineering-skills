@@ -1,0 +1,5 @@
+interface:
+  display_name: "Setup Ponytail Lite"
+  short_description: "Register ponytail-lite as always-on hooks"
+policy:
+  allow_implicit_invocation: false
