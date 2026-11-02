@@ -31,8 +31,8 @@ python -m unittest discover -s tests -v
 ```text
 skills/
   domain-modeling/             共享术语表与 ADR 的维护机制
-  grilling/                    设计讨论与追问，供组合入口调用
-  grill-with-docs/             讨论过程中同步维护项目文档
+  grilling/                    设计讨论与需求追问，附功能类覆盖清单
+  grill-with-docs/             讨论过程中同步维护术语表、ADR 与 SPEC.md
   prototype/                  逻辑演示与多方案 UI 原型
   diagnosing-bugs/
     SKILL.md                  Matt 的调试技能，保留上游原文
@@ -73,8 +73,8 @@ npx skills@latest add yakami129/engineering-skills --skill diagnosing-bugs -a co
 | 技能 | 用途 |
 | --- | --- |
 | [domain-modeling](skills/domain-modeling/SKILL.md) | 在设计讨论中明确项目术语和概念边界，维护 `GLOSSARY.md` 并记录重要 ADR；[来源与版本](skills/domain-modeling/UPSTREAM.md) |
-| [grilling](skills/grilling/SKILL.md) | 围绕计划或设计分轮追问，澄清尚未决定的问题；[来源与版本](skills/grilling/UPSTREAM.md) |
-| [grill-with-docs](skills/grill-with-docs/SKILL.md) | 手动调用的组合入口：边讨论边维护术语表与 ADR，依赖上面两个技能；[兼容调整与来源](skills/grill-with-docs/UPSTREAM.md) |
+| [grilling](skills/grilling/SKILL.md) | 围绕计划、设计或功能需求分轮追问，澄清尚未决定的问题；功能/系统类讨论对照十维覆盖清单查漏；[来源与版本](skills/grilling/UPSTREAM.md) |
+| [grill-with-docs](skills/grill-with-docs/SKILL.md) | 手动调用的组合入口：边讨论边维护术语表与 ADR，讨论功能时最终产出 `docs/SPEC.md`，依赖上面两个技能；[兼容调整与来源](skills/grill-with-docs/UPSTREAM.md) |
 | [prototype](skills/prototype/SKILL.md) | 用可交互原型验证设计问题：单文件 HTML 逻辑演示，或可切换的多方案 UI 布局；[来源与版本](skills/prototype/UPSTREAM.md) |
 | [diagnosing-bugs](skills/diagnosing-bugs/SKILL.md) | Matt Pocock 的疑难故障与性能回归诊断流程：建立反馈循环、复现并最小化、验证假设、修复与回归检查；[来源与版本](skills/diagnosing-bugs/UPSTREAM.md) |
 | [meeting-notes](skills/meeting-notes/SKILL.md) | 将会议记录整理成结论、决策、待办和待确认问题；作为写作示例，可直接修改或删除 |
